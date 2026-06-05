@@ -14,8 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "collections")
-public class Collection {
+@Table(name = "decks")
+public class Deck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +27,7 @@ public class Collection {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "deck", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Flashcard> flashcards;
 }

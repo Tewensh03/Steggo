@@ -1,8 +1,8 @@
 package com.example.steggo.service;
 
-import com.example.steggo.model.Collection;
+import com.example.steggo.model.Deck;
 import com.example.steggo.model.Flashcard;
-import com.example.steggo.repository.CollectionRepository;
+import com.example.steggo.repository.DeckRepository;
 import com.example.steggo.repository.FlashcardRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +12,22 @@ import java.util.Optional;
 @Service
 public class FlashcardService {
     private final FlashcardRepository flashcardRepository;
-    private final CollectionRepository collectionRepository;
+    private final DeckRepository deckRepository;
 
-    public FlashcardService(FlashcardRepository flashcardRepository, CollectionRepository collectionRepository) {
+    public FlashcardService(FlashcardRepository flashcardRepository, DeckRepository deckRepository) {
         this.flashcardRepository = flashcardRepository;
-        this.collectionRepository = collectionRepository;
+        this.deckRepository = deckRepository;
     }
 
-    public List<Flashcard> getFlashcardByCollection(Long collectionId) {
-        return flashcardRepository.findByCollectionId(collectionId);
+    public List<Flashcard> getFlashcardByCollection(Long deckId) {
+        return flashcardRepository.findByDeckId(deckId);
     }
 
-    public Flashcard addFlashcardToCollection(Long collectionId, Flashcard flashcard) {
-        Collection collection = collectionRepository.findById(collectionId)
-                .orElseThrow(() -> new RuntimeException("Collection not found with id" + collectionId));
+    public Flashcard addFlashcardToCollection(Long deckId, Flashcard flashcard) {
+        Deck deck = deckRepository.findById(deckId)
+                .orElseThrow(() -> new RuntimeException("Deck not found with id" + deckId));
 
-        flashcard.setCollection(collection);
+        flashcard.setDeck(deck);
 
         return flashcardRepository.save(flashcard);
     }

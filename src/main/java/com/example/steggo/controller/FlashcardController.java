@@ -17,16 +17,16 @@ public class FlashcardController {
         this.flashcardService = flashcardService;
     }
 
-    @GetMapping("/collections/{collectionId}/flashcards")
-    public List<Flashcard> getFlashcardByCollection(@PathVariable Long collectionId) {
-        return flashcardService.getFlashcardByCollection(collectionId);
+    @GetMapping("/decks/{deckId}/flashcards")
+    public List<Flashcard> getFlashcardByCollection(@PathVariable Long deckId) {
+        return flashcardService.getFlashcardByCollection(deckId);
     }
 
-    @PostMapping("/collections/{collectionId}/flashcards")
+    @PostMapping("/decks/{deckId}/flashcards")
     public Flashcard addFlashcardToCollection(
-            @PathVariable Long collectionId,
+            @PathVariable Long deckId,
             @RequestBody Flashcard flashcard) {
-        return flashcardService.addFlashcardToCollection(collectionId, flashcard);
+        return flashcardService.addFlashcardToCollection(deckId, flashcard);
     }
 
     @DeleteMapping("/flashcards/{id}")

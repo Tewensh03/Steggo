@@ -27,7 +27,7 @@ public class Flashcard {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "collection_id", nullable = false)
+    @JoinColumn(name = "deck_id", nullable = false)
     @JsonBackReference
-    private Collection collection;
+    private Deck deck;
 }
