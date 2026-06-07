@@ -38,10 +38,24 @@ public class AuthenticationService {
     }
 
     public User signup(RegisterUserDto input) {
-        User user = new User(input.getUsername(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
+        if (userRepository.findByEmail(input.getEmail()).isPresent()) {
+            throw new RuntimeException("Email is already used.");
+        }
+
+        if (userRepository.findByUsername(input.getUsername()) .isPresent()) {
+            throw new RuntimeException(("Username is already taken."));
+        }
+
+        User user = new User(
+                input.getUsername(),
+                input.getEmail(),
+                passwordEncoder.encode(input.getPassword())
+        );
+
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(10));
         user.setEnabled(false);
+
         sendVerificationEmail(user);
         return userRepository.save(user);
     }
@@ -60,6 +74,7 @@ public class AuthenticationService {
                         input.getPassword()
                 )
         );
+
         return user;
     }
 
