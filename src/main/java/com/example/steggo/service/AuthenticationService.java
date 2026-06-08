@@ -65,7 +65,7 @@ public class AuthenticationService {
                 .orElseThrow(() -> new RuntimeException(("Wrong email or password")));
 
         if (!user.isEnabled()) {
-            throw new RuntimeException("Account not yet verified. Please verify your account");
+            throw new RuntimeException("Account not yet verified. Please verify your account.");
         }
 
         authenticationManager.authenticate(
