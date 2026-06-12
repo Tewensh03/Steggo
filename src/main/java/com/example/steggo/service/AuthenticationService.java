@@ -106,9 +106,20 @@ public class AuthenticationService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+
             if (user.isEnabled()) {
                 throw new RuntimeException("Account is already verified");
             }
+
+            if (user.getVerificationCodeExpiresAt() != null) {
+                LocalDateTime sentAt = user.getVerificationCodeExpiresAt().minusMinutes(10);
+                LocalDateTime cooldownEnds = sentAt.plusMinutes(3);
+
+                if (LocalDateTime.now().isBefore(cooldownEnds)) {
+                    throw new RuntimeException("Please wait before requesting a new code.");
+                }
+            }
+
             user.setVerificationCode(generateVerificationCode());
             user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(10));
             sendVerificationEmail(user);
