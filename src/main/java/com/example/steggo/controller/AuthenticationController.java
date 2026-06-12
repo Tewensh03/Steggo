@@ -32,7 +32,7 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
         try {
             authenticationService.signup(registerUserDto);
-            return ResponseEntity.ok("Registration Successful");
+            return ResponseEntity.ok(Map.of("message", "Registration Successful."));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
@@ -64,9 +64,9 @@ public class AuthenticationController {
     public ResponseEntity<?> verifyUser(@RequestBody VerifyUserDto verifyUserDto) {
         try {
             authenticationService.verifyUser(verifyUserDto);
-            return ResponseEntity.ok("Account verified successfully");
+            return ResponseEntity.ok(Map.of("Message", "Verification Successful."));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 
@@ -74,9 +74,9 @@ public class AuthenticationController {
     public ResponseEntity<?> resendVerificationCode(@RequestParam String email) {
         try {
             authenticationService.resendVerificationCode(email);
-            return ResponseEntity.ok("Verification code sent");
+            return ResponseEntity.ok(Map.of("message", "Verification code sent."));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
     }
 }
