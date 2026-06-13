@@ -3,6 +3,7 @@ package com.example.steggo.service;
 import com.example.steggo.dto.LoginUserDto;
 import com.example.steggo.dto.RegisterUserDto;
 import com.example.steggo.dto.VerifyUserDto;
+import com.example.steggo.exception.EmailNotVerifiedException;
 import com.example.steggo.model.User;
 import com.example.steggo.repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -21,19 +22,15 @@ public class AuthenticationService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
-
     private final EmailService emailService;
 
     public AuthenticationService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager,
             EmailService emailService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
         this.emailService = emailService;
     }
 
@@ -64,16 +61,13 @@ public class AuthenticationService {
         User user = userRepository.findByEmail(input.getEmail())
                 .orElseThrow(() -> new RuntimeException(("Wrong email or password")));
 
-        if (!user.isEnabled()) {
-            throw new RuntimeException("Account not yet verified. Please verify your account.");
+        if (!passwordEncoder.matches(input.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Wrong email or password.");
         }
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()
-                )
-        );
+        if (!user.isEnabled()) {
+            throw new EmailNotVerifiedException("Account not verified.");
+        }
 
         return user;
     }

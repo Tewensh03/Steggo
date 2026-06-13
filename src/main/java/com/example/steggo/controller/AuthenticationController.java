@@ -3,11 +3,13 @@ package com.example.steggo.controller;
 import com.example.steggo.dto.LoginUserDto;
 import com.example.steggo.dto.RegisterUserDto;
 import com.example.steggo.dto.VerifyUserDto;
+import com.example.steggo.exception.EmailNotVerifiedException;
 import com.example.steggo.model.User;
 import com.example.steggo.service.AuthenticationService;
 import com.example.steggo.service.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,9 @@ public class AuthenticationController {
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return ResponseEntity.ok(Map.of("Message", "Login Successful."));
+        } catch (EmailNotVerifiedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("code", "EMAIL_NOT_VERIFIED", "message", e.getMessage()));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         }
