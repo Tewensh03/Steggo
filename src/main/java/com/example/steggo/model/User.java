@@ -76,6 +76,10 @@ public class User implements UserDetails {
         return enabled;
     }
 
+    /**
+     * Spring Security contract: 'username' acts as the generic unique identifier
+     * used for authentication. In this application, we return the user's Email.
+     */
     @Override
     public String getUsername() {
         return email;

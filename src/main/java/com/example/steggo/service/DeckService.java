@@ -20,17 +20,17 @@ public class DeckService {
         this.userRepository = userRepository;
     }
 
-    public List<Deck> getDecksByUsername(String username) {
-        return deckRepository.findByUserUsername(username);
+    public List<Deck> getDecksByEmail(String email) {
+        return deckRepository.findByUserEmail(email);
     }
 
-    public Optional<Deck> getDeckByIdAndUsername(Long id, String username) {
-        return deckRepository.findByIdAndUserUsername(id, username);
+    public Optional<Deck> getDeckByIdAndEmail(Long id, String email) {
+        return deckRepository.findByIdAndUserEmail(id, email);
     }
 
     @Transactional
-    public Deck createDeckForUser(Deck deck, String username) {
-        User user = userRepository.findByUsername(username)
+    public Deck createDeckForUser(Deck deck, String email) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
         deck.setUser(user);
