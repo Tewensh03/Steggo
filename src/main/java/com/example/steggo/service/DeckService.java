@@ -1,5 +1,6 @@
 package com.example.steggo.service;
 
+import com.example.steggo.dto.CreateDeckDto;
 import com.example.steggo.model.Deck;
 import com.example.steggo.model.User;
 import com.example.steggo.repository.DeckRepository;
@@ -29,9 +30,13 @@ public class DeckService {
     }
 
     @Transactional
-    public Deck createDeckForUser(Deck deck, String email) {
+    public Deck createDeckForUser(CreateDeckDto deckRequest, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found."));
+
+        Deck deck = new Deck();
+
+        deck.setTitle(deckRequest.getTitle());
 
         deck.setUser(user);
         return deckRepository.save(deck);

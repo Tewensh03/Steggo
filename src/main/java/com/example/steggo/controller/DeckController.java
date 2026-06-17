@@ -1,7 +1,9 @@
 package com.example.steggo.controller;
 
+import com.example.steggo.dto.CreateDeckDto;
 import com.example.steggo.model.Deck;
 import com.example.steggo.service.DeckService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,7 +40,10 @@ public class DeckController {
     }
 
     @PostMapping
-    public Deck createDeck(@RequestBody Deck deck, @AuthenticationPrincipal UserDetails userDetails) {
-        return deckService.createDeckForUser(deck, userDetails.getUsername());
+    public ResponseEntity<Deck> createDeck(
+            @Valid @RequestBody CreateDeckDto deckRequest,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.ok(deckService.createDeckForUser(deckRequest, userDetails.getUsername()));
     }
 }
