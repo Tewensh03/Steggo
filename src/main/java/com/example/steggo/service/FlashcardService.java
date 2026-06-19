@@ -5,10 +5,8 @@ import com.example.steggo.exception.ResourceNotFoundException;
 import com.example.steggo.model.Deck;
 import com.example.steggo.model.Flashcard;
 import com.example.steggo.model.FlashcardOption;
-import com.example.steggo.model.User;
 import com.example.steggo.repository.DeckRepository;
 import com.example.steggo.repository.FlashcardRepository;
-import com.example.steggo.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,16 +16,13 @@ import java.util.Optional;
 
 @Service
 public class FlashcardService {
-    private final UserRepository userRepository;
     private final FlashcardRepository flashcardRepository;
     private final DeckRepository deckRepository;
 
     public FlashcardService(
-            UserRepository userRepository,
             FlashcardRepository flashcardRepository,
             DeckRepository deckRepository
     ) {
-        this.userRepository = userRepository;
         this.flashcardRepository = flashcardRepository;
         this.deckRepository = deckRepository;
     }
