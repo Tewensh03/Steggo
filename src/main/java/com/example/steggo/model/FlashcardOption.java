@@ -1,6 +1,7 @@
 package com.example.steggo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class FlashcardOption {
     private String optionText;
 
     @Column(nullable = false)
+    @JsonProperty("isCorrect")
     private boolean isCorrect;
 
     @ManyToOne
