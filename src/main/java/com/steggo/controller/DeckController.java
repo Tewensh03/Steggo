@@ -1,6 +1,7 @@
 package com.steggo.controller;
 
 import com.steggo.dto.CreateDeckDto;
+import com.steggo.dto.UpdateDeckDto;
 import com.steggo.model.Deck;
 import com.steggo.service.DeckService;
 import jakarta.validation.Valid;
@@ -39,9 +40,20 @@ public class DeckController {
 
     @PostMapping
     public ResponseEntity<Deck> createDeck(
-            @Valid @RequestBody CreateDeckDto deckRequest,
+            @Valid @RequestBody CreateDeckDto createRequest,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(deckService.createDeckForUser(deckRequest, userDetails.getUsername()));
+        return ResponseEntity.ok(deckService.createDeckForUser(createRequest, userDetails.getUsername()));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Deck> updateDeck(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateDeckDto updateRequest,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return deckService.updateDeckForUser(id, updateRequest, userDetails.getUsername())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
