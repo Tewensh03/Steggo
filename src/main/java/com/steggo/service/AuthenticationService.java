@@ -1,8 +1,8 @@
 package com.steggo.service;
 
-import com.steggo.dto.LoginUserDto;
-import com.steggo.dto.RegisterUserDto;
-import com.steggo.dto.VerifyUserDto;
+import com.steggo.dto.auth.LoginUserDto;
+import com.steggo.dto.auth.RegisterUserDto;
+import com.steggo.dto.auth.VerifyUserDto;
 import com.steggo.exception.EmailNotVerifiedException;
 import com.steggo.model.User;
 import com.steggo.repository.UserRepository;

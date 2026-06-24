@@ -1,4 +1,4 @@
-package com.steggo.dto;
+package com.steggo.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;
